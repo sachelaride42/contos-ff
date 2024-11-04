@@ -1,24 +1,6 @@
 <?php
-$route = $_SERVER['REQUEST_URI'];
-$parsedURL = parse_url($route);
-$route = $parsedURL['path'];
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../Router.php';
 
-
-switch ($route) {
-    case '/user/create':
-        $userController = new userController();
-        $userController->abrirTelaCadastro();
-        break;
-    case '/user/store':
-        $userController = new userController();
-        $userController->cadastrarUsuario();
-        break;
-    case '/user/delete':
-        $userController = new userController();
-        $userController->deletarUsuario();
-        break;
-
-    default:
-        echo 'Erro 404: Página não encontrada';
-        break;
-}
+$router = new Router();
+$router->route();
