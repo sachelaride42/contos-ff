@@ -65,7 +65,7 @@ class Router {
 
     private function dispatch($action, $params){
         list($controller, $method) = explode('@', $action);
-        $controller = 'Src\\Controllers\\' . $controller;
+        $controller = 'Src\\controllers\\' . $controller;
         call_user_func_array([new $controller, $method], $params);
     }
 

@@ -20,5 +20,9 @@
 
         }
 
-    }
+    },
+  "require": {
+    "ext-json": "*",
+    "ext-pdo": "*"
+  }
 }
