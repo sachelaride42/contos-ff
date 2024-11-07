@@ -14,12 +14,17 @@ class Router {
         // Páginas principais
         $this->get('/', 'HomeController@index');
         $this->get('/login', 'UserController@loginForm');
+        $this->get('/cadastro', 'UserController@registerForm');
         $this->get('/criar-conto', 'ContosController@createForm');
         $this->get('/meus-contos', 'ContosController@myContos');
         $this->get('/contos', 'ContosController@allContos');
 
+        //APIs de CRUD para Usuários
+        $this->post('/api/usuarios', 'UserController@login');
+        $this->post('/api/usuarios/cadastro', 'UserController@register');
+
         // APIs de CRUD para os Contos
-        $this->post('/api/contos', 'ContosController@store');
+        $this->post('/api/contos', 'ContosController@create');
         $this->get('/api/contos', 'ContosController@index');
         $this->get('/api/contos/:id', 'ContosController@show');
         $this->put('/api/contos/:id', 'ContosController@update');

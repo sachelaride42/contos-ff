@@ -7,7 +7,9 @@ class UserController
     public function loginForm(){
         require_once __DIR__ . '/../views/login.php';
     }
+
     public function login(){
+        header('Content-Type: application/json');
         $data = json_decode(file_get_contents("php://input"), true);
         $email = isset($data['email']) ? $data['email'] : null;
         $senha = isset($data['senha']) ? $data['senha'] : null;
@@ -15,14 +17,22 @@ class UserController
         $user = new User($email, $senha);
 
         if($user->validateLogin($email, $senha)){
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Login realizado com sucesso.'
-            ]);
+            $daoController = new DaoController();
+            if($daoController->loginUser($user)){
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Login realizado com sucesso.'
+                ]);
+            }else{
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Erro ao fazer login.'
+                ]);
+            }
         }else{
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Email ou senha incorretos.'
+                'message' => $user->validateLogin($email, $senha)[1]
             ]);
         }
     }
@@ -32,6 +42,7 @@ class UserController
     }
 
     public function register(){
+        header('Content-Type: application/json');
         $data = json_decode(file_get_contents("php://input"), true);
         $nome = isset($data['nome']) ? $data['nome'] : null;
         $email = isset($data['email']) ? $data['email'] : null;

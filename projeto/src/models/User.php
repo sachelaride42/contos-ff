@@ -1,7 +1,7 @@
 <?php
 namespace Src\models;
 class User {
-    private $usuario_id;
+    private $id;
     private $nome;
     private $email;
     private $senha;
@@ -12,8 +12,8 @@ class User {
         $this->senha = $senha;
     }
 
-    public function getUsuario_id() {
-        return $this->usuario_id;
+    public function get_id() {
+        return $this->id;
     }
     public function getNome() {
         return $this->nome;
@@ -24,8 +24,8 @@ class User {
     public function getSenha() {
         return $this->senha;
     }
-    public function setUsuario_id($usuario_id) {
-        $this->usuario_id = $usuario_id;
+    public function set_id($id) {
+        $this->id = $id;
     }
     public function setNome($nome) {
         $this->nome = $nome;
@@ -35,6 +35,16 @@ class User {
     }
     public function setSenha($senha) {
         $this->senha = $senha;
+    }
+
+    public function validateLogin($email, $senha) {
+        if(empty($email) || empty($senha)) {
+            return [false, "Dados incompletos"];
+        }else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return [false, "Email em formato inválido."];
+        }else{
+            return [true];
+        }
     }
 
     public function validateRegister($nome, $email, $senha) {
@@ -49,9 +59,6 @@ class User {
         }else{
             return [true];
         }
-
-
-
     }
 
 }
