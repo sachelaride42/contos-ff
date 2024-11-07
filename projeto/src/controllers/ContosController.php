@@ -1,5 +1,5 @@
 <?php
-namespace Src\Controllers;
+namespace Src\controllers;
 use DaoController;
 use Src\models\Conto;
 

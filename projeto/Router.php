@@ -60,7 +60,8 @@ class Router {
             $pattern = preg_replace('#:([\w]+)#', '([^/]+)', $route);
             if(preg_match('#^' . $pattern . '$#', $uri, $matches)){
                 array_shift($matches);
-                return $this->dispatch($action, $matches);
+                $this->dispatch($action, $matches);
+                return;
             }
         }
 
@@ -72,6 +73,10 @@ class Router {
         list($controller, $method) = explode('@', $action);
         $controller = 'Src\\controllers\\' . $controller;
         call_user_func_array([new $controller, $method], $params);
+    }
+
+    public function listRoutes(){
+        var_dump($this->routes);
     }
 
 }
