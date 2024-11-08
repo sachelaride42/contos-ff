@@ -20,7 +20,7 @@ class Conto {
     public function getId() {
         return $this->id;
     }
-    public function getUsuario_id() {
+    public function getUsuarioId() {
         return $this->usuario_id;
     }
     public function getTitulo() {
@@ -29,7 +29,7 @@ class Conto {
     public function setTitulo($titulo){
         $this->titulo = $titulo;
     }
-    public function getData_publicacao() {
+    public function getDataPublicacao() {
         return $this->data_publicacao;
     }
     public function getTexto() {
@@ -40,7 +40,7 @@ class Conto {
     }
 
     public function validarConto(){
-        if(empty($this->usuario_id || $this->titulo) || empty($this->texto) || empty($this->data_publicacao)){
+        if(empty($this->usuario_id) || empty($this->titulo) || empty($this->texto) || empty($this->data_publicacao)){
             return false;
         }else{
             return true;

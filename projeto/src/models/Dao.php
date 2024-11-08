@@ -1,6 +1,7 @@
 <?php
 namespace Src\models;
 
+use PDO;
 use PDOException;
 
 class Dao

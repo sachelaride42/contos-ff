@@ -1,6 +1,6 @@
 <?php
 namespace Src\controllers;
-use DaoController;
+use Src\controllers\DaoController;
 use Src\models\User;
 class UserController
 {
@@ -43,6 +43,10 @@ class UserController
 
     public function register(){
         header('Content-Type: application/json');
+        /*echo json_encode([
+            'status' => 'error',
+            'message' => 'Senhas não correspondem.'
+        ]);*/
         $data = json_decode(file_get_contents("php://input"), true);
         $nome = isset($data['nome']) ? $data['nome'] : null;
         $email = isset($data['email']) ? $data['email'] : null;
@@ -58,9 +62,9 @@ class UserController
             ]);
             return;
         }
-        if($user->validateRegister($nome, $email, $senha)){
+        if($user->validateRegister($nome, $email, $senha)[0]){
             $daoController = new DaoController();
-            if($daoController->registerUser($user)[0]){
+            if($daoController->registerUser($user)){
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Cadastro realizado com sucesso.'

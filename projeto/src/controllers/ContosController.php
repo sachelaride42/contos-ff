@@ -1,6 +1,6 @@
 <?php
 namespace Src\controllers;
-use DaoController;
+use Src\controllers\DaoController;
 use Src\models\Conto;
 
 class ContosController {
@@ -70,8 +70,7 @@ class ContosController {
         $data_publicacao = $data['data_publicacao'] ? $data['data_publicacao'] : null;
         $texto = $data['texto'] ? $data['texto'] : null;
 
-        $conto = new Conto($usuario_id, $titulo, $data_publicacao, $texto);
-
+        $conto = new Conto(null,$usuario_id, $titulo, $data_publicacao, $texto);
         if($conto->validarConto()){
             $daoController = new DaoController();
             if($daoController->createConto($conto)){

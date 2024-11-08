@@ -1,5 +1,5 @@
 <?php
-
+namespace Src\controllers;
 use Src\models\Dao;
 
 class DaoController{
