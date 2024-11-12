@@ -62,7 +62,14 @@ class Dao
             $query = "DELETE FROM contos WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(":id", $id);
-            return $stmt->execute();
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0){
+                return true;
+            }
+            else {
+                return false;
+            }
         } catch (PDOException $e) {
             return false;
         }

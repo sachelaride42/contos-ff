@@ -22,6 +22,7 @@ class Router {
         //APIs de CRUD para Usuários
         $this->post('/api/usuarios', 'UserController@login');
         $this->post('/api/usuarios/cadastro', 'UserController@register');
+        $this->get('logout', 'UserController@logout');
 
         // APIs de CRUD para os Contos
         $this->post('/api/contos', 'ContosController@create');

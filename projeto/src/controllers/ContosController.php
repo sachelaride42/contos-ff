@@ -23,7 +23,7 @@ class ContosController {
         if($contos){
             echo json_encode([
                 'status' => 'sucesso',
-                'contos' => $contos
+                'message' => $contos
             ]);
         }else if($contos == "Erro ao listar os contos"){
             echo json_encode([
@@ -47,7 +47,7 @@ class ContosController {
         if($conto){
             echo json_encode([
                 'status' => 'sucesso',
-                'message' => 'Conto criado com sucesso!'
+                'message' => $conto
             ]);
         }else if($conto == "Erro buscar conto") {
             echo json_encode([
