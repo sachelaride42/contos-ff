@@ -12,8 +12,12 @@ class ContosController {
         require_once __DIR__ . '/../views/meus_contos.php';
     }
 
-    public function allContos() {
-        require_once __DIR__ . '/../views/todos_contos.php';
+    public function atualizarConto($id) {
+        if (session_status() === PHP_SESSION_NONE){
+            session_start();
+        }
+        $_SESSION['id_conto'] = $id;
+        require_once __DIR__ . '/../views/atualizar_conto.php';
     }
 
     public function index() {
@@ -147,6 +151,22 @@ class ContosController {
         }
 
 
+    }
+
+    public function idConto(){
+        header('Content-Type: application/json');
+         if(isset($_SESSION["id_conto"])){
+             json_encode([
+                 'status' => 'sucesso',
+                 'message' => $_SESSION["id_conto"]
+             ]);
+         }
+         else{
+             json_encode([
+                 'status' => 'erro',
+                 'message' => 'Erro ao buscar conto!'
+             ]);
+         }
     }
 
     public function destroy($id) {

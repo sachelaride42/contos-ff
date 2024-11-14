@@ -65,7 +65,8 @@ class UserController
             echo json_encode([
                 'status' => 'sucesso',
                 'message' => 'Logado',
-                'user_id' => $_SESSION["user"]
+                'user_id' => $_SESSION["user"],
+                'conto_id' => $_SESSION["conto_id"]
             ]);
         }else{
             echo json_encode([

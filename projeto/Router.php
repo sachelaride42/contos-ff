@@ -31,6 +31,7 @@ class Router {
         // APIs de CRUD para os Contos
         $this->post('/api/contos', 'ContosController@create');
         $this->get('/api/contos', 'ContosController@index');
+        //$this->get('api/id-conto/:id', 'ContosController@idConto');//pega o id do conto
         $this->get('/api/meus-contos/:id', 'ContosController@myContosIndex');
         $this->get('/api/contos/:id', 'ContosController@show');
         $this->put('/api/contos/:id', 'ContosController@update');
