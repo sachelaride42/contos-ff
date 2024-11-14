@@ -101,10 +101,35 @@ class Dao
         }
     }
 
+    public function indexMyContos($id)
+    {
+        try {
+            $query = "SELECT * FROM contos WHERE usuario_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(":id", $id);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return "Erro ao listar os contos";
+        }
+    }
+
     public function showConto($id)
     {
         try {
             $query = "SELECT * FROM contos WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(":id", $id);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            return "Erro ao buscar conto";
+        }
+    }
+
+    public function showUser($id){
+        try {
+            $query = "SELECT * FROM usuarios WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(":id", $id);
             $stmt->execute();

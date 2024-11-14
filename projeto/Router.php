@@ -17,20 +17,24 @@ class Router {
         $this->get('/cadastro', 'UserController@registerForm');
         $this->get('/criar-conto', 'ContosController@createForm');
         $this->get('/meus-contos', 'ContosController@myContos');
-        $this->get('/contos', 'ContosController@allContos');
+        $this->get('/atualizar-conto/:id', 'ContosController@atualizarConto');
 
         //APIs de CRUD para Usuários
         $this->post('/api/usuarios', 'UserController@login');
         $this->post('/api/usuarios/cadastro', 'UserController@register');
-        $this->get('logout', 'UserController@logout');
+        $this->get('/isLogged', 'UserController@isLogged');
+        $this->get('/api/usuarios/:id', 'UserController@show');
+
+        //comando
+        $this->get('/logout', 'UserController@logout');
 
         // APIs de CRUD para os Contos
         $this->post('/api/contos', 'ContosController@create');
         $this->get('/api/contos', 'ContosController@index');
+        $this->get('/api/meus-contos/:id', 'ContosController@myContosIndex');
         $this->get('/api/contos/:id', 'ContosController@show');
         $this->put('/api/contos/:id', 'ContosController@update');
         $this->delete('/api/contos/:id', 'ContosController@destroy');
-
     }
 
     public function get($uri, $action){

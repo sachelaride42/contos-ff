@@ -17,10 +17,10 @@ if (session_status() === PHP_SESSION_NONE){
     <div class="nav-wrapper">
         <a href="#" class="brand-logo">Contos</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/cadastro">Cadastro</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/criar-conto">Criar Conto</a></li>
-            <li><a href="/meus-contos">Meus Contos</a></li>
+            <li><a id="criar-conto" href="/criar-conto">Criar Conto</a></li>
+            <li><a id="meus-contos" href="/meus-contos">Meus Contos</a></li>
+            <li><a id="login" href="/login">Login</a></li>
+            <li><a id="cadastro" href="/cadastro">Cadastro</a></li>
             <li><a href="#" id="logout">Logout</a></li>
         </ul>
     </div>
@@ -33,18 +33,36 @@ if (session_status() === PHP_SESSION_NONE){
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const logoutButton = document.getElementById('logout');
-        const isLogged = <?php isset($_SESSION["isLogged"]);?>;
+        let isLogged = false;
+        function fetchLogin() {
+            fetch('http://localhost:8000/isLogged')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "sucesso") {
+                        isLogged =  (data.message === "Logado")
+                    }
+                    const criarContoButton = document.getElementById("criar-conto");
+                    const logoutButton = document.getElementById('logout');
+                    const loginButton = document.getElementById('login');
+                    const cadastroButton = document.getElementById('cadastro');
+                    const meusContosButton = document.getElementById('meus-contos');
 
-        // Esconde o botão de logout se não estiver logado
-        if (!isLogged) {
-            logoutButton.style.display = 'none';
-        } else {
-            logoutButton.addEventListener('click', function() {
-                <?php unset($_SESSION["isLogged"]);?>
-                window.location.reload();
-            });
+                    if (!isLogged) {
+                        logoutButton.style.display = 'none';
+                        meusContosButton.style.display = 'none';
+                        criarContoButton.style.display = 'none';
+                    } else {
+                        cadastroButton.style.display = 'none';
+                        loginButton.style.display = 'none';
+                        logoutButton.addEventListener('click', function() {
+                            window.location.href = '/logout';
+                        });
+                    }
+                    fetchContos();
+                })
+                .catch(error => alert('Erro ao buscar login: ' + error));
         }
+        fetchLogin();
 
         // Função para buscar contos
         function fetchContos() {
@@ -53,10 +71,14 @@ if (session_status() === PHP_SESSION_NONE){
                 .then(data => {
                     if (data.status === "sucesso") {
                         const contosHtml = data.message.map(conto => `
-                                <div class="card">
-                                    <div class="card-content">
-                                        <span class="card-title">${conto.titulo}</span>
-                                        <p>${conto.texto}</p>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                      <div class="card">
+                                        <div class="card-content">
+                                          <span class="card-title">${conto.titulo}</span>
+                                          <p>${conto.texto}</p>
+                                        </div>
+                                      </div>
                                     </div>
                                 </div>
                             `).join('');
@@ -67,7 +89,7 @@ if (session_status() === PHP_SESSION_NONE){
                 })
                 .catch(error => alert('Erro ao buscar contos: ' + error));
         }
-        fetchContos(); // Chama a função para buscar contos
+        // Chama a função para buscar contos
     });
 </script>
 </body>

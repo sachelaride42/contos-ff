@@ -23,11 +23,13 @@ class UserController
 
         if($user->validateLogin($email, $senha)){
             $daoController = new DaoController();
-            if($daoController->loginUser($user)){
-                $_SESSION["isLoggedIn"] = true;
+            $loginUser = $daoController->loginUser($user);
+            if($loginUser){
+                $_SESSION["isLogged"] = true;
+                $_SESSION["user"] = $loginUser["id"];
                 echo json_encode([
                     'status' => 'sucesso',
-                    'message' => 'Login realizado com sucesso.'
+                    'message' => 'Login realizado com sucesso.',
                 ]);
             }else{
                 echo json_encode([
@@ -44,22 +46,34 @@ class UserController
     }
 
     public function logout(){
+        if (session_status() === PHP_SESSION_NONE){
+            session_start();
+        }
+        if(isset($_SESSION["isLogged"])){
+            unset($_SESSION["isLogged"]);
+            unset($_SESSION["user"]);
+        }
+        header('Location: /');
+    }
+
+    public function isLogged(){
         header('Content-Type: application/json');
         if (session_status() === PHP_SESSION_NONE){
             session_start();
         }
-        if(isset($_SESSION["isLoggedIn"])){
-            unset($_SESSION["isLoggedIn"]);
-            json_encode([
-                "status" => "sucesso",
-                "message" => "Usuário deslogado."
+        if(isset($_SESSION["isLogged"])){
+            echo json_encode([
+                'status' => 'sucesso',
+                'message' => 'Logado',
+                'user_id' => $_SESSION["user"]
             ]);
         }else{
-            json_encode([
-                "status" => "erro",
-                "message" => "Login inexistente"
+            echo json_encode([
+                'status' => 'erro',
+                'message' => 'Não está logado'
             ]);
         }
+
     }
 
     public function registerForm() {
@@ -107,5 +121,22 @@ class UserController
             ]);
         }
 
+    }
+
+    public function show($id){
+        header('Content-Type: application/json');
+        $daoController = new DaoController();
+        $user = $daoController->showUser($id);
+        if($user){
+            echo json_encode([
+                'status' => 'sucesso',
+                'message' => $user["nome"]
+            ]);
+        }else{
+            echo json_encode([
+                'status' => 'erro',
+                'message' => 'Usuario não encontrado.'
+            ]);
+        }
     }
 }

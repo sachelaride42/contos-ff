@@ -1,6 +1,6 @@
 <?php
 namespace Src\controllers;
-use Src\controllers\DaoController;
+use Src\controllers;
 use Src\models\Conto;
 
 class ContosController {
@@ -20,6 +20,30 @@ class ContosController {
         header('Content-Type: application/json');
         $daoController = new DaoController();
         $contos = $daoController->indexContos();
+        if($contos){
+            echo json_encode([
+                'status' => 'sucesso',
+                'message' => $contos
+            ]);
+        }else if($contos == "Erro ao listar os contos"){
+            echo json_encode([
+                'status' => 'erro',
+                'message' => 'Erro ao listar os contos!'
+            ]);
+        }
+        else{
+            echo json_encode([
+                'status' => 'erro',
+                'message' => 'Não há contos'
+            ]);
+        }
+
+    }
+
+    public function myContosIndex($id) {
+        header('Content-Type: application/json');
+        $daoController = new DaoController();
+        $contos = $daoController->indexMyContos($id);
         if($contos){
             echo json_encode([
                 'status' => 'sucesso',

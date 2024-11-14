@@ -30,8 +30,16 @@ class DaoController{
         return $this->dao->indexContos();
     }
 
+    public function indexMyContos($id){
+        return $this->dao->indexMyContos($id);
+    }
+
     public function showConto($id){
         return $this->dao->showConto($id);
+    }
+
+    public function showUser($id){
+        return $this->dao->showUser($id);
     }
 
 
