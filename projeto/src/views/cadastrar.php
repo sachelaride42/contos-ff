@@ -8,9 +8,8 @@ if (session_status() === PHP_SESSION_NONE){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contos</title>
+    <title>Cadastro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
 </head>
 <body>
 <nav>
@@ -25,21 +24,40 @@ if (session_status() === PHP_SESSION_NONE){
         </ul>
     </div>
 </nav>
-
 <div class="container">
-    <h1>Todos os Contos</h1>
-    <div id="contos"></div>
+    <h1>Cadastro</h1>
+    <form id="login-form">
+        <div class="input-field">
+            <input type="text" id="nome" required>
+            <label for="nome">Nome</label>
+        </div>
+        <div class="input-field">
+            <input type="text" id="email" required>
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <input type="password" id="senha" required>
+            <label for="senha">Senha</label>
+        </div>
+        <div class="input-field">
+            <input type="password" id="c-senha" required>
+            <label for="c-senha">Confirmar senha</label>
+        </div>
+        <button type="submit" class="btn">Cadastrar</button>
+    </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let usuario_id = null;
         let isLogged = false;
         function fetchLogin() {
             fetch('http://localhost:8000/isLogged')
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "sucesso") {
-                        isLogged =  (data.message === "Logado")
+                        isLogged =  (data.message === "Logado");
+                        usuario_id = data.user_id;
                     }
                     const criarContoButton = document.getElementById("criar-conto");
                     const logoutButton = document.getElementById('logout');
@@ -58,38 +76,37 @@ if (session_status() === PHP_SESSION_NONE){
                             window.location.href = '/logout';
                         });
                     }
-                    fetchContos();
                 })
                 .catch(error => alert('Erro ao buscar login: ' + error));
         }
         fetchLogin();
 
-        // Função para buscar contos
-        function fetchContos() {
-            fetch('http://localhost:8000/api/contos')
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const confirmaSenha = document.getElementById('c-senha').value;
+            fetch('http://localhost:8000/api/usuarios/cadastro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({nome, email, senha, confirmaSenha})
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "sucesso") {
-                        const contosHtml = data.message.map(conto => `
-                                <div class="row">
-                                    <div class="col s12 m12 l12">
-                                      <div class="card">
-                                        <div class="card-content">
-                                          <span class="card-title">${conto.titulo}</span>
-                                          <p>${conto.texto}</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
-                            `).join('');
-                        document.getElementById('contos').innerHTML = contosHtml;
+                        alert('Usuário cadastrado com sucesso');
+                        window.location.href = '/'; // Redireciona para a página principal
                     } else {
                         alert(data.message);
                     }
                 })
-                .catch(error => alert('Erro ao buscar contos: ' + error));
-        }
-        // Chama a função para buscar contos
+                .catch(() => {
+                    alert('Erro ao cadastrar.');
+                });
+        });
     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

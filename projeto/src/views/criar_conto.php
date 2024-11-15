@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE){
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Contos</a>
+            <a href="/" class="brand-logo">Contos</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a id="criar-conto" href="/criar-conto">Criar Conto</a></li>
                 <li><a id="meus-contos" href="/meus-contos">Meus Contos</a></li>
@@ -105,5 +105,6 @@ if (session_status() === PHP_SESSION_NONE){
             });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

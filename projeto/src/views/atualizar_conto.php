@@ -26,11 +26,9 @@ if (session_status() === PHP_SESSION_NONE){
     </div>
 </nav>
 
-<div class="container">
-    <h1>Atualizar conto</h1>
     <div class="container">
-        <h1>Criar Novo Conto</h1>
-        <form id="criar-conto-form">
+        <h1>Atualizar Conto</h1>
+        <form id="atualizar-conto-form">
             <div class="input-field">
                 <input type="text" id="titulo" required>
                 <label for="titulo">Título</label>
@@ -46,19 +44,19 @@ if (session_status() === PHP_SESSION_NONE){
             <button type="submit" class="btn">Atualizar Conto</button>
         </form>
     </div>
-</div>
 
-<script>
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         let conto_id = null;
         let isLogged = false;
         let usuario_id = null;
+
         function fetchLogin() {
             fetch('http://localhost:8000/isLogged')
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "sucesso") {
-                        isLogged =  (data.message === "Logado");
+                        isLogged = (data.message === "Logado");
                         usuario_id = data.user_id;
                         conto_id = data.conto_id;
                     }
@@ -80,55 +78,67 @@ if (session_status() === PHP_SESSION_NONE){
                         });
                         fetchConto();
                     }
-
                 })
                 .catch(error => alert('Erro ao buscar login: ' + error));
         }
-        fetchLogin();
+ fetchLogin();
 
         function fetchConto() {
-            fetch(`http://localhost:8000/api/contos/${conto_id}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "sucesso") {
-                        const titulo = document.getElementById('titulo');
-                        const texto = document.getElementById('texto');
-                        const data_publicacao = document.getElementById('data_publicacao');
-                        titulo.value = data.titulo;
-                        texto.value = data.texto;
-                        data_publicacao.value = data.data_publicacao;
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => alert('Erro ao buscar contos: ' + error));
-        }
-
-            document.getElementById('atualizar-conto-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const titulo = document.getElementById('titulo').value;
-                const texto = document.getElementById('texto').value;
-                const data_publicacao = document.getElementById('data_publicacao').value;
-                fetch(`http://localhost:8000/api/contos/${conto_id}`, {method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({id: conto_id, usuario_id: usuario_id, titulo: titulo, texto: texto, data_publicacao: data_publicacao})
+            if (conto_id) {
+                fetch(`http://localhost:8000/api/contos/${conto_id}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === "sucesso") {
-                            alert('Conto criado com sucesso!');
-                            window.location.href = '/'; // Redireciona para a página principal
+                            const html_titulo = document.getElementById('titulo');
+                            const html_texto = document.getElementById('texto');
+                            const html_data_publicacao = document.getElementById('data_publicacao');
+                            html_titulo.value = data.message.titulo;
+                            html_texto.value = data.message.texto;
+                            html_data_publicacao.value = data.message.data_publicacao;
                         } else {
                             alert(data.message);
                         }
                     })
-                    .catch(() => {
-                        alert('Erro ao criar conto.');
-            });
+                    .catch(error => alert('Erro ao buscar contos: ' + error));
+            } else {
+                alert('ID do conto não encontrado.');
+            }
+        }
 
+        document.getElementById('atualizar-conto-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const titulo = document.getElementById('titulo').value;
+            const texto = document.getElementById('texto').value;
+            const data_publicacao = document.getElementById('data_publicacao').value;
+
+            fetch(`http://localhost:8000/api/contos/${conto_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: conto_id,
+                    usuario_id: usuario_id,
+                    titulo: titulo,
+                    texto: texto,
+                    data_publicacao: data_publicacao
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "sucesso") {
+                    alert('Conto atualizado com sucesso!');
+                    window.location.href = '/'; // Redireciona para a página principal
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(() => {
+                alert('Erro ao atualizar conto.');
+            });
+        });
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

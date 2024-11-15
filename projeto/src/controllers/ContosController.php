@@ -16,7 +16,7 @@ class ContosController {
         if (session_status() === PHP_SESSION_NONE){
             session_start();
         }
-        $_SESSION['id_conto'] = $id;
+        $_SESSION['conto_id'] = $id;
         require_once __DIR__ . '/../views/atualizar_conto.php';
     }
 
@@ -151,22 +151,6 @@ class ContosController {
         }
 
 
-    }
-
-    public function idConto(){
-        header('Content-Type: application/json');
-         if(isset($_SESSION["id_conto"])){
-             json_encode([
-                 'status' => 'sucesso',
-                 'message' => $_SESSION["id_conto"]
-             ]);
-         }
-         else{
-             json_encode([
-                 'status' => 'erro',
-                 'message' => 'Erro ao buscar conto!'
-             ]);
-         }
     }
 
     public function destroy($id) {

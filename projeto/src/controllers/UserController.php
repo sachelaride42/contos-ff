@@ -52,6 +52,7 @@ class UserController
         if(isset($_SESSION["isLogged"])){
             unset($_SESSION["isLogged"]);
             unset($_SESSION["user"]);
+            unset($_SESSION["conto_id"]);
         }
         header('Location: /');
     }
@@ -78,7 +79,7 @@ class UserController
     }
 
     public function registerForm() {
-        require_once __DIR__ . '/../views/register.php';
+        require_once __DIR__ . '/../views/cadastrar.php';
     }
 
     public function register(){
