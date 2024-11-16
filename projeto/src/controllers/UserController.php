@@ -21,7 +21,7 @@ class UserController
 
         $user = new User(null,$email, $senha);
 
-        if($user->validateLogin($email, $senha)){
+        if($user->validateLogin($email, $senha)[0]){
             $daoController = new DaoController();
             $loginUser = $daoController->loginUser($user);
             if($loginUser){
@@ -39,7 +39,7 @@ class UserController
             }
         }else{
             echo json_encode([
-                'status' => 'sucesso',
+                'status' => 'erro',
                 'message' => $user->validateLogin($email, $senha)[1]
             ]);
         }

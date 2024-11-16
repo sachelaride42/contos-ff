@@ -102,7 +102,8 @@ if (session_status() === PHP_SESSION_NONE){
                 .then(response => response.json())
                 .then(data => {
                     if(data.status === "sucesso"){
-                        fetchMeusContos();
+                        alert(data.message);
+                        window.location.href = "http://localhost:8000/meus-contos"
                     }
                     else{
                         alert(data.message);
@@ -113,6 +114,5 @@ if (session_status() === PHP_SESSION_NONE){
 
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
