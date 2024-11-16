@@ -1,4 +1,11 @@
 # Contos-ff
+## Tabela de conteúdos
+- [Descrição](#descrição)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Uso](#uso)
+- [Contribuir](#contribuir)
+- [Contato](#contato)
 
 ## Descrição
 
@@ -9,15 +16,6 @@ Esse projeto é um website que tem como objetivo a criação e o compartilhament
 **Dependências:** composer, phpunit, MySQL
 
 **Diagrama ER:** https://drive.google.com/file/d/1euFVSPDhHzlfEtlKPEJ-hGYBVf4egvR4/view?usp=drive_link
-
-## Tabela de conteúdos
-
-- [Pré-requisitos](#prerequisites)
-- [Instalação](#installation)
-- [Uso](#usage)
-- [Contribuir](#contributing)
-- [Licença](#license)
-- [Contato](#contact)
 
 ## Pré-requisitos
 
@@ -37,41 +35,52 @@ Antes de começar, garanta que você tenha cumprido os seguintes requerimentos:
 
 Para instalar esse projeto, siga os seguintes passos:
 
-1. Clone o repositório:
-   No cmd:
-   *git clone https://github.com/sachelaride42/contos-ff.git
-   cd contos-ff
-   cd projeto*
+1. Clone o repositório: <br>
+   No cmd:<br>
+   *git clone https://github.com/sachelaride42/contos-ff.git<br>
+   cd contos-ff<br>
+   cd projeto*<br>
 
-3. Crie uma conexão no seu SGBD, e dentro dela, execute o seguinte SQL: 
-*create database contos;*
-*use contos;*
-*create table usuarios (*
-*id int primary key auto_increment,*
-*nome varchar(60),*
-*email varchar(60),*
-*senha varchar(16)
-);*
+2. Crie uma conexão no seu SGBD, e dentro dela, execute o seguinte SQL: <br>
+*create database contos;*<br>
+*use contos;* <br>
+*create table usuarios (* <br>
+*id int primary key auto_increment,* <br>
+*nome varchar(60),* <br>
+*email varchar(60),* <br>
+*senha varchar(16)* <br>
+*);* <br>
+*create table contos (* <br>
+*id int primary key auto_increment,* <br>
+*usuario_id int,* <br>
+*titulo varchar(60),* <br>
+*data_publicacao date,* <br>
+*texto text,* <br>
+*foreign key (usuario_id) references usuarios(id)* <br>
+*);* <br>
 
-*create table contos (
-id int primary key auto_increment,
-usuario_id int,
-titulo varchar(60),
-data_publicacao date,
-texto text,
-foreign key (usuario_id) references usuarios(id)
-);*
-
-2. Instale as dependências usando Composer
+3. Instale as dependências usando Composer<br>
 No cmd: *composer install*
 
-3. Run the application:
+4. Rode a aplicação:<br>
 No cmd: *php -S localhost:8000 -t public*
 
-##Usage
-To use this project, follow these steps:
+## Uso
+Para usar esse projeto, siga esses passos:<br>
+Abra o seu web browser e navega para http://localhost:8000. A partir dessa tela, que é a inicial do sistema web, você visualiza Todos os contos já feitos e enviados para o Banco de Dados e dali também você pode navegar para cadastro e login. Primeiro você deve se cadastrar para poder logar. Uma vez logado, abrirá, na barra de navegação, as opções para se criar um novo conto, ver seus contos já criados e fazer logout. Em "criar conto", você escreve um conto, o qual ficará disponível posteriormente para todos os usuários. Em "meus contos", você poderá atualizar ou deletar os seus contos já criados. Em logout, você é deslogado e retorna para a página inicial.
 
-Open your web browser and navigate to http://localhost:8000.
+## Contribuir
+Contributions are welcome! Please follow these steps to contribute: Contribuições são bem-vindas. Por favor, siga as seguintes instruções para contribuir: <br>
+- Forque o repositório.
+- Crie uma nova branch (git checkout -b feature/YourFeature). 
+- Faça mudanças e depois dê um commit nelas (git commit -m 'Add some feature'). 
+- Dê um push para a branch (git push origin feature/YourFeature). 
+- Abra um pull request. 
 
-[Provide a brief explanation of how to use the main features of your project. Include code snippets or examples if applicable.]
+## Contato
+Para quaisquer questões ou feedback, sinta-se livre para me contatar: <br>
+- Mateus R. Sachelaride - sachelaride.42
+
+
+
 
